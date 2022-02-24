@@ -1,0 +1,12 @@
+[Unit]
+Description=MQTT importer for AMiner
+
+[Service]
+Type=simple
+User=aminer
+Group=aminer
+ExecStart=/usr/lib/amqtt/amqttd.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
