@@ -57,6 +57,9 @@ def read_config():
     if 'MQTT_SERVER' in os.environ:
         mqtt_options['server'] = os.environ.get('MQTT_SERVER')
 
+    if 'MQTT_PORT' in os.environ:
+        mqtt_options['port'] = os.environ.get('MQTT_PORT')
+
     if 'AMQTT_SEARCH' in os.environ:
         options['search'] = os.environ.get('AMQTT_SEARCH')
 
