@@ -18,7 +18,9 @@ from dictfilter import query
 class Amqtt:
     DEFAULT_CONFIG = {
         'server': 'localhost',
-        'port': '1883'
+        'port': '1883',
+        'username': None,
+        'password': None
     }
 
     def __init__(self, *topics, **configs):
@@ -115,6 +117,8 @@ class Amqtt:
             self.stopper = False
             self.consumer = mqtt.Client()
             self.consumer.enable_logger(self.logger)
+            if self.config['username'] is not None and self.config['password'] is not None:
+                self.consumer.username_pw_set(self.config['username'], password=self.config['password'])
             self.consumer.on_connect = self.on_connect
             self.consumer.on_message = self.handler
             self.consumer.connect(self.config['server'],port=1883)
