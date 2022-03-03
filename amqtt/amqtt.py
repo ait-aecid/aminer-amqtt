@@ -112,7 +112,7 @@ class Amqtt:
         """
         self.sock = sock
 
-    def self.timing(self):
+    def timing(self):
         self.check_alive = True
 
     def run(self):
