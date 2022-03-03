@@ -19,6 +19,6 @@ jobs:
           USERNAME: ${{ secrets.DOCKER_USERNAME }}
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERFILE: "Dockerfile"
-          IMAGE_NAME: "aitaecid/akafka"
+          IMAGE_NAME: "aitaecid/amqtt"
           TAG_NAME: "v0.9"
           LATEST: "true"
