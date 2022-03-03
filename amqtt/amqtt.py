@@ -12,6 +12,7 @@ import copy
 import re
 import ast
 import datetime
+import threading as th
 import paho.mqtt.client as mqtt
 from dictfilter import query
 
@@ -33,6 +34,7 @@ class Amqtt:
         self.searchlist = None
         self.filters = False
         self.filters_delim = '.'
+        self.check_alive = False
 
         self.logger = logging.getLogger(__name__)
 
@@ -110,6 +112,9 @@ class Amqtt:
         """
         self.sock = sock
 
+    def self.timing(self):
+        self.check_alive = True
+
     def run(self):
         """Starts the scheduler
         """
@@ -122,11 +127,17 @@ class Amqtt:
             self.consumer.on_connect = self.on_connect
             self.consumer.on_message = self.handler
             self.consumer.connect(self.config['server'],port=1883)
+            T = th.Timer(3.0, self.timing)
+            T.start()
+            self.logger.debug("Starting another run..")
 
             while self.stopper is False:
-                self.logger.debug("Starting another run..")
                 self.consumer.loop()
-                self.sock.send('\n'.encode())
+                if self.check_alive == True:
+                    self.check_alive = False
+                    self.sock.send('\n'.encode())
+                    T = th.Timer(3.0, self.timing)
+                    T.start()
         except KeyboardInterrupt:
             self.logger.debug("KeyboardInterrupt detected...")
             self.stopper = True
