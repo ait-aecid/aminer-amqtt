@@ -21,7 +21,10 @@ class Amqtt:
         'server': 'localhost',
         'port': '1883',
         'username': None,
-        'password': None
+        'password': None,
+        'ca_cert': None,
+        'certfile': None,
+        'keyfile': None
     }
 
     def __init__(self, *topics, **configs):
@@ -125,6 +128,8 @@ class Amqtt:
             self.consumer.enable_logger(self.logger)
             if self.config['username'] is not None and self.config['password'] is not None:
                 self.consumer.username_pw_set(self.config['username'], password=self.config['password'])
+            if self.config['ca_cert'] is not None:
+                self.consumer.tls_set(ca_certs=self.config['ca_cert'])
             self.consumer.on_connect = self.on_connect
             self.consumer.on_message = self.handler
             self.consumer.connect(self.config['server'],port=1883)

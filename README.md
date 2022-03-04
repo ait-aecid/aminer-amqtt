@@ -28,6 +28,7 @@ The following environment variables are available:
 | MQTT_PORT           | 1883 | MQTT port |
 | MQTT_USERNAME       | user01 | MQTT user |
 | MQTT_PASSWORD       | supersecure | MQTT password |
+| MQTT_TLS            | is set | enables tls for MQTT |
 | AMQTT_SEARCH        | `['.*example.com.*']` | List of regex-patterns to filter specific events |
 | AMQTT_FILTERS       | `['@metadata.type','@timestamp']` |
 
