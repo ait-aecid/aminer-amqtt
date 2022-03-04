@@ -106,6 +106,7 @@ def main():
         logger.error("Unable to delete file %s : Permission Denied!" % unixpath)
         exit(1)
 
+    logger.info("topics: %s" % options.get('topics'))
     topics = ast.literal_eval(options.get('topics'))
 
     logger.info("starting amqtt daemon...")
