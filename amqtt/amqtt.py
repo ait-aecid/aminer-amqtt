@@ -130,7 +130,7 @@ class Amqtt:
             self.consumer.connect(self.config['server'],port=1883)
             T = th.Timer(self.check_interval, self.timing)
             T.start()
-            self.logger.debug("Starting another run..")
+            self.logger.debug("Starting another run with check_interval %f" % self.check_interval)
 
             while self.stopper is False:
                 self.consumer.loop()

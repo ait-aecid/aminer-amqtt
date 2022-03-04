@@ -124,6 +124,7 @@ def main():
 
     if options.get('check_interval'):
         ak.check_interval = float(options.get('check_interval'))
+        logger.info("Set check_interval to %f" % ak.check_interval)
 
     if options.get('search'):
         ak.searchlist = ast.literal_eval(options.get('search'))
