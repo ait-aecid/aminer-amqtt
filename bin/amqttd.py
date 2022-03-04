@@ -47,7 +47,6 @@ def read_config():
         mqtt_options['server'] = "localhost"
         mqtt_options['port'] = "1883"
 
-
     if 'MQTT_TOPICS' in os.environ:
         options['topics'] = os.environ.get('MQTT_TOPICS')
 
@@ -60,12 +59,17 @@ def read_config():
     if 'MQTT_PORT' in os.environ:
         mqtt_options['port'] = os.environ.get('MQTT_PORT')
 
+    if 'MQTT_USERNAME' in os.environ:
+        mqtt_options['username'] = os.environ.get('MQTT_USERNAME')
+
+    if 'MQTT_PASSWORD' in os.environ:
+        mqtt_options['password'] = os.environ.get('MQTT_PASSWORD')
+
     if 'AMQTT_SEARCH' in os.environ:
         options['search'] = os.environ.get('AMQTT_SEARCH')
 
     if 'AMQTT_FILTERS' in os.environ:
         options['filters'] = os.environ.get('AMQTT_FILTERS')
-
 
     return options,mqtt_options
 
