@@ -35,6 +35,7 @@ class Amqtt:
         self.filters = False
         self.filters_delim = '.'
         self.check_alive = False
+        self.check_interval = 5.0
 
         self.logger = logging.getLogger(__name__)
 
@@ -127,7 +128,7 @@ class Amqtt:
             self.consumer.on_connect = self.on_connect
             self.consumer.on_message = self.handler
             self.consumer.connect(self.config['server'],port=1883)
-            T = th.Timer(3.0, self.timing)
+            T = th.Timer(self.check_interval, self.timing)
             T.start()
             self.logger.debug("Starting another run..")
 
@@ -136,7 +137,7 @@ class Amqtt:
                 if self.check_alive == True:
                     self.check_alive = False
                     self.sock.send('\n'.encode())
-                    T = th.Timer(3.0, self.timing)
+                    T = th.Timer(self.check_interval, self.timing)
                     T.start()
         except KeyboardInterrupt:
             self.logger.debug("KeyboardInterrupt detected...")

@@ -122,6 +122,9 @@ def main():
 
     ak = Amqtt(*topics,**mqtt_options)
 
+    if options.get('check_interval'):
+        ak.check_interval = float(options.get('check_interval'))
+
     if options.get('search'):
         ak.searchlist = ast.literal_eval(options.get('search'))
     if options.get('filters'):
