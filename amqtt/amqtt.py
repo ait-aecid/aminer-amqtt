@@ -61,6 +61,9 @@ class Amqtt:
         except json.decoder.JSONDecodeError:
             self.logger.debug("displayfilter: %s" % hit)
             return hit
+        except UnicodeDecodeError:
+            self.logger.debug("Unicode-Decode-Error")
+            return hit
 
         if self.filters is False:
             self.logger.debug("displayfilter with filters is FALSE: %s" % hit)
@@ -129,10 +132,11 @@ class Amqtt:
             if self.config['username'] is not None and self.config['password'] is not None:
                 self.consumer.username_pw_set(self.config['username'], password=self.config['password'])
             if self.config['ca_cert'] is not None:
+                self.logger.debug("Using ca_cert: %s" % self.config['ca_cert'])
                 self.consumer.tls_set(ca_certs=self.config['ca_cert'])
             self.consumer.on_connect = self.on_connect
             self.consumer.on_message = self.handler
-            self.consumer.connect(self.config['server'],port=1883)
+            self.consumer.connect(self.config['server'],self.config['port'])
             T = th.Timer(self.check_interval, self.timing)
             T.start()
             self.logger.debug("Starting another run with check_interval %f" % self.check_interval)
@@ -147,7 +151,8 @@ class Amqtt:
         except KeyboardInterrupt:
             self.logger.debug("KeyboardInterrupt detected...")
             self.stopper = True
-        except OSError:
+        except OSError as error:
+            self.logger.error(error)
             self.logger.error("Client disconnected", exc_info=False)
         finally:
             self.close()

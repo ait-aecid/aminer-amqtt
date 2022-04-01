@@ -66,7 +66,7 @@ def read_config():
         mqtt_options['password'] = os.environ.get('MQTT_PASSWORD')
 
     if 'MQTT_TLS' in os.environ:
-        mqtt_options['ca_cert'] = "/etc/ssl/certs"
+        mqtt_options['ca_cert'] = os.environ.get('MQTT_TLS')
 
     if 'AMQTT_SEARCH' in os.environ:
         options['search'] = os.environ.get('AMQTT_SEARCH')
