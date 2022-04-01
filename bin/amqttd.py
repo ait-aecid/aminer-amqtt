@@ -6,7 +6,7 @@ unix domain sockets to the logdata-anomaly-miner.
 """
 
 import sys
-
+from importlib.machinery import SourceFileLoader
 import os
 import socket
 import configparser
@@ -128,6 +128,13 @@ def main():
         exit(1)
 
     ak = Amqtt(*topics,**mqtt_options)
+    try:
+        if options.get('decoder'):
+            pluginpath = os.path.join(options.get('plugindir'), options.get('decoder') + ".py")
+            plugin = SourceFileLoader("plugin", pluginpath).load_module()
+            ak.decoder = plugin.Decoder()
+    except FileNotFoundError:
+        logger.error("Path to decoder-plugin not found: %s" % pluginpath)
 
     if options.get('check_interval'):
         ak.check_interval = float(options.get('check_interval'))

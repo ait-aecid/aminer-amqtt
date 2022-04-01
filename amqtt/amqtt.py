@@ -12,6 +12,7 @@ import copy
 import re
 import ast
 import datetime
+from baseplugin import BasePlugin # skipcq: FLK-E402
 import threading as th
 import paho.mqtt.client as mqtt
 from dictfilter import query
@@ -38,6 +39,7 @@ class Amqtt:
         self.filters = False
         self.filters_delim = '.'
         self.check_alive = False
+        self.decoder = None
         self.check_interval = 5.0
 
         self.logger = logging.getLogger(__name__)
@@ -95,18 +97,28 @@ class Amqtt:
         for t in self.topics:
             client.subscribe(t)
 
+    def decode(self, payload):
+        if isinstance(self.decoder, BasePlugin):
+            self.logger.debug("Decoding Payload")
+            return self.decoder.decode(payload)
+        return payload
+
     def handler(self, client, userdata, msg):
         """Scheduler-function that polls mqtt
 
         """
         try:
             self.logger.debug("Recieved data on topic: %s" % msg.topic)
-            if self.search(msg.payload) is True:
-               self.logger.debug(msg.payload)
-               data = self.displayfilter(msg.payload)
+            payload = self.decode(msg.payload)
+            if self.search(payload) is True:
+               self.logger.debug(payload)
+               data = self.displayfilter(payload)
                if data:
                    self.logger.debug("Sending data: %s" % data)
-                   self.sock.send(data)
+                   if isinstance(data,str):
+                   	self.sock.send(data.encode())
+                   else:
+                   	self.sock.send(data)
                    self.sock.send('\n'.encode())
         except OSError:       
             self.logger.error("Client disconnected", exc_info=False)
