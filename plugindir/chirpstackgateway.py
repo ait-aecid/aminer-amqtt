@@ -1,5 +1,6 @@
 import sys
 import json
+from datetime import datetime
 from chirpstack_api.gw import UplinkFrame
 
 sys.path = sys.path[1:]+['/usr/lib/amqtt']
@@ -14,7 +15,9 @@ class Decoder(BasePlugin):
         jlo = {}
         frame = UplinkFrame()
         frame.ParseFromString(payload)
+        timestamp = datetime.now()
         jlo = { 
+            'timestamp': timestamp.strftime("%Y-%m-%d %H:%M:%S.%f"),
             'phy_payload': frame.phy_payload.hex(), 
             'tx_info': {
                 'frequency': str(frame.tx_info.frequency), 
