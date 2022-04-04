@@ -71,6 +71,9 @@ def read_config():
     if 'AMQTT_SEARCH' in os.environ:
         options['search'] = os.environ.get('AMQTT_SEARCH')
 
+    if 'PAYLOAD_DECODER' in os.environ:
+        options['decoder'] = os.environ.get('PAYLOAD_DECODER')
+
     if 'AMQTT_FILTERS' in os.environ:
         options['filters'] = os.environ.get('AMQTT_FILTERS')
 

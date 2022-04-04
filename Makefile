@@ -1,9 +1,11 @@
 init:
 	pip3 install -r requirements.txt
+	pip3 install -r plugindir/requirements.txt
 
 install: init
 	test -d /usr/lib/amqtt || mkdir -p /usr/lib/amqtt
 	cp -r amqtt/* /usr/lib/amqtt/
+	cp -r plugindir /usr/lib/amqtt/plugindir
 	test -d /etc/aminer/ || mkdir /etc/aminer/
 	test -e /etc/aminer/amqtt.conf || cp etc/amqtt.conf /etc/aminer/amqtt.conf
 	test -d /etc/systemd/system && cp etc/amqttd.service /etc/systemd/system/amqttd.service

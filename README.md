@@ -31,6 +31,7 @@ The following environment variables are available:
 | MQTT_TLS            | is set | enables tls for MQTT |
 | AMQTT_SEARCH        | `['.*example.com.*']` | List of regex-patterns to filter specific events |
 | AMQTT_FILTERS       | `['@metadata.type','@timestamp']` |
+| PAYLOAD_DECODER     | `chirpstackgateway` | Load specific decoder |
 
 # Poll manually
 
