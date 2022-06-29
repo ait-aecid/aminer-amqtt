@@ -135,7 +135,7 @@ def main():
         if options.get('decoder'):
             pluginpath = os.path.join(options.get('plugindir'), options.get('decoder') + ".py")
             plugin = SourceFileLoader("plugin", pluginpath).load_module()
-            ak.decoder = plugin.Decoder()
+            ak.decoder = plugin.Decoder(options)
     except FileNotFoundError:
         logger.error("Path to decoder-plugin not found: %s" % pluginpath)
 

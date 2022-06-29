@@ -1,8 +1,9 @@
 class BasePlugin() :
-    def __init__(self):
+    def __init__(self,options):
         """
         Constructor for the plugin
         """
+        self.options = options
 
     def decode(self,payload):
         """

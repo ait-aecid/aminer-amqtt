@@ -1,6 +1,6 @@
 import sys
 import json
-from datetime import datetime
+from datetime import datetime,timezone,timedelta
 from chirpstack_api.gw import UplinkFrame
 
 sys.path = sys.path[1:]+['/usr/lib/amqtt']
@@ -8,14 +8,18 @@ sys.path = sys.path[1:]+['/usr/lib/amqtt']
 from baseplugin import BasePlugin
 
 class Decoder(BasePlugin):
-    def __init__(self) :
+    def __init__(self,options) :
         print("loading plugin")
+        super().__init__(options)
+        self.tzoffset = 0 # UTC
+        if options.get('tzoffset'):
+            self.tzoffset = int(options.get('tzoffset'))
 
     def decode(self,payload):
         jlo = {}
         frame = UplinkFrame()
         frame.ParseFromString(payload)
-        timestamp = datetime.now()
+        timestamp = datetime.now(timezone(timedelta(hours=self.tzoffset)))
         jlo = { 
             'timestamp': timestamp.strftime("%Y-%m-%d %H:%M:%S.%f"),
             'phy_payload': frame.phy_payload.hex(), 
