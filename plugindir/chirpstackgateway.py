@@ -21,7 +21,7 @@ class Decoder(BasePlugin):
         frame.ParseFromString(payload)
         timestamp = datetime.now(timezone(timedelta(hours=self.tzoffset)))
         jlo = { 
-            'timestamp': timestamp.strftime("%Y-%m-%d %H:%M:%S.%f"),
+            'timestamp': timestamp.strftime("%Y-%m-%d %H:%M:%S.%f%z"),
             'phy_payload': frame.phy_payload.hex(), 
             'tx_info': {
                 'frequency': str(frame.tx_info.frequency), 
