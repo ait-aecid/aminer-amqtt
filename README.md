@@ -16,8 +16,8 @@ sudo chown aminer:aminer /var/lib/amqtt
 
 # Configuration
 
-It is possible to configure amqtt via configuration file which must be located at '/etc/aminer/kafka.conf' or via environment variables. 
-A sample of the configuration file can be found at [etc/mqtt.conf](/etc/kafka.conf)
+It is possible to configure amqtt via configuration file which must be located at '/etc/aminer/amqtt.conf' or via environment variables. 
+A sample of the configuration file can be found at [etc/amqtt.conf](/etc/amqtt.conf)
 The following environment variables are available:
 
 | Environment variable | Example | Description |
